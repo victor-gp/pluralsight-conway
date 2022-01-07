@@ -28,3 +28,22 @@ body {
         #grid input[type=checkbox]:checked {
             background: black;
         }
+
+button {
+    margin: auto 0.8em;
+	padding: .4em .6em;
+	border: 1px solid rgba(0,0,0,.2);
+	border-radius: .3em;
+	box-shadow: 0 1px 0 hsla(0,0%,100%,.7) inset, 0 .15em .1em -.1em rgba(0,0,0,.3);
+	background: linear-gradient(hsla(0,0%,100%,.3), hsla(0,0%,100%,0)) #1771d1;
+	outline: none;
+	font: inherit;
+	font-weight: bold;
+	color: white;
+	text-shadow: 0 -.05em .05em rgba(0,0,0,.3);
+	cursor: pointer;
+}
+
+h1 {
+    margin-bottom: 1em;
+}

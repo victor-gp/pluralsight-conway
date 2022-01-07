@@ -127,6 +127,14 @@ _.prototype = {
     stopAutoplay: function() {
         clearTimeout(this.timeToNextPlay);
     },
+
+    clear: function() {
+        this.checkboxes.forEach(
+            row => row.forEach(
+                checkbox => checkbox.checked = false
+            )
+        );
+    },
 }
 
 })();
@@ -163,6 +171,13 @@ lifeView.gridNode.addEventListener('change', function(event) {
     if (event.target.nodeName.toLowerCase() == "input" && $('#button-play').playing) {
         stopAutoplay();
     }
+});
+
+$('#button-clear').addEventListener('click', function () {
+    if ($('#button-play').playing) {
+        stopAutoplay();
+    }
+    lifeView.clear();
 });
 
 })();

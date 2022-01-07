@@ -65,10 +65,43 @@ var game = new Life([
     // [1, 1, 1, 0, 0],
     [0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0],
-])
+]);
 
 console.log(game + '');
 game.next();
 console.log(game + '');
 game.next();
 console.log(game + '');
+
+(function() {
+
+var _ = self.LifeView = function(gridElement, height, width) {
+    this.gridElem = gridElement; // must be a <table>
+    this.height = height;
+    this.width = width;
+    this.createGrid();
+};
+
+_.prototype = {
+    createGrid: function() {
+        var fragment = document.createDocumentFragment();
+        for (var y = 0; y < this.height; y++) {
+            var row = document.createElement('tr');
+            fragment.appendChild(row);
+
+            for (var x = 0; x < this.width; x++) {
+                var cell = document.createElement('td');
+                var checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                cell.appendChild(checkbox);
+                row.appendChild(cell);
+            }
+        }
+        this.gridElem.innerHTML = ''; // just in case
+        this.gridElem.appendChild(fragment);
+    }
+}
+
+})();
+
+var lifeView = new LifeView(document.getElementById('grid'), 16, 16);

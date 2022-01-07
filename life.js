@@ -114,6 +114,14 @@ _.prototype = {
     get boardArray() {
         return this.checkboxes.map(row => row.map(cb => +cb.checked));
     },
+
+    autoplay: function() {
+        this.next();
+        var me = this;
+        this.timeToNextPlay = setTimeout(function() {
+            me.autoplay()
+        }, 1000);
+    },
 }
 
 })();
@@ -124,6 +132,10 @@ var lifeView = new LifeView(document.getElementById('grid'), 16, 16);
 
 $('#button-next').addEventListener('click', function() {
     lifeView.next();
+})
+
+$('#button-play').addEventListener('click', function () {
+    lifeView.autoplay();
 })
 
 })();

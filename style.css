@@ -36,7 +36,7 @@ button,
 	border: 1px solid rgba(0,0,0,.2);
 	border-radius: .3em;
 	box-shadow: 0 1px 0 hsla(0,0%,100%,.7) inset, 0 .15em .1em -.1em rgba(0,0,0,.3);
-	background: linear-gradient(hsla(0,0%,100%,.3), hsla(0,0%,100%,0)) #1771d1;
+	background: linear-gradient(hsla(0,0%,100%,.3), hsla(0,0%,100%,0)) hsl(211,80%,45%);
 	outline: none;
 	font: inherit;
 	font-weight: bold;
@@ -51,9 +51,16 @@ button,
 	clip-path: circle(0%);
 }
 
+button:enabled:active,
+.button:active,
 input[type="checkbox"]:checked + label.button {
 	background-image: none;
 	box-shadow: 0 .1em .3em rgba(0,0,0,.5) inset;
+}
+
+button:disabled {
+	background-color: hsl(211,30%,35%);
+	cursor: not-allowed;
 }
 
 h1 {

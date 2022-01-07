@@ -1,3 +1,7 @@
+function $(selector, container) {
+    return (container || document).querySelector(selector);
+}
+
 (function() {
 
 var _ = self.Life = function(seed) {
@@ -99,9 +103,21 @@ _.prototype = {
         }
         this.gridElem.innerHTML = ''; // just in case
         this.gridElem.appendChild(fragment);
-    }
+    },
+
+    next: function() {
+
+    },
 }
 
 })();
 
 var lifeView = new LifeView(document.getElementById('grid'), 16, 16);
+
+(function() {
+
+$('#button-next').addEventListener('click', function() {
+    lifeView.next();
+})
+
+})();

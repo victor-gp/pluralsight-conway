@@ -62,21 +62,6 @@ function clone2dArray(array) {
 
 })();
 
-var game = new Life([
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 1, 1, 1, 0],
-    // [1, 1, 1, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-]);
-
-console.log(game + '');
-game.next();
-console.log(game + '');
-game.next();
-console.log(game + '');
-
 (function() {
 
 var _ = self.LifeView = function(gridElement, height, width) {
@@ -88,25 +73,46 @@ var _ = self.LifeView = function(gridElement, height, width) {
 
 _.prototype = {
     createGrid: function() {
+        this.gridElem.innerHTML = ''; // just in case
         var fragment = document.createDocumentFragment();
+        this.checkboxes = [];
         for (var y = 0; y < this.height; y++) {
             var row = document.createElement('tr');
             fragment.appendChild(row);
+            this.checkboxes[y] = []
 
             for (var x = 0; x < this.width; x++) {
                 var cell = document.createElement('td');
-                var checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                cell.appendChild(checkbox);
                 row.appendChild(cell);
+                var checkbox = document.createElement('input');
+                cell.appendChild(checkbox);
+                this.checkboxes[y][x] = checkbox;
+                checkbox.type = 'checkbox';
+                checkbox.coords = [y, x];
             }
         }
-        this.gridElem.innerHTML = ''; // just in case
+
+        // for testing
+        this.checkboxes[1][0].checked = true;
+        this.checkboxes[1][1].checked = true;
+        this.checkboxes[1][2].checked = true;
+
         this.gridElem.appendChild(fragment);
     },
 
     next: function() {
+        model = new Life(this.boardArray);
+        model.next();
+        board = model.board;
+        for (var y = 0; y < this.height; y++) {
+            for (var x = 0; x < this.width; x++) {
+                this.checkboxes[y][x].checked = !!board[y][x];
+            }
+        }
+    },
 
+    get boardArray() {
+        return this.checkboxes.map(row => row.map(cb => +cb.checked));
     },
 }
 

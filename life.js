@@ -143,38 +143,49 @@ var lifeView = new LifeView(document.getElementById('grid'), 16, 16);
 
 (function() {
 
-$('#button-next').addEventListener('click', function() {
-    if ($('#button-play').playing) {
+var buttons = {
+    next: $('#button-next'),
+    play: $('#checkbox-play'),
+    clear: $('#button-clear'),
+}
+
+buttons.play.checked = false;
+
+buttons.next.addEventListener('click', function() {
+    if (isPlaying()) {
         stopAutoplay();
     }
     lifeView.next();
 });
 
-$('#button-play').addEventListener('click', function () {
-    if (this.playing) {
-        stopAutoplay();
-    } else {
-        this.playing = true;
-        this.innerHTML = "stop";
+buttons.play.addEventListener('change', function () {
+    if (this.checked) {
+        buttons.next.disabled = true;
         lifeView.autoplay();
+    } else {
+        stopAutoplay();
     }
 });
 
+function isPlaying() {
+    return buttons.play.checked;
+}
+
 function stopAutoplay() {
-    var playButton = $('#button-play');
-    playButton.playing = false;
-    playButton.innerHTML = "play";
     lifeView.stopAutoplay();
+    buttons.play.checked = false;
+    buttons.next.disabled = false;
 };
 
 lifeView.gridNode.addEventListener('change', function(event) {
-    if (event.target.nodeName.toLowerCase() == "input" && $('#button-play').playing) {
+    var nodeName = event.target.nodeName.toLowerCase();
+    if (nodeName == "input" && isPlaying()) {
         stopAutoplay();
     }
 });
 
-$('#button-clear').addEventListener('click', function () {
-    if ($('#button-play').playing) {
+buttons.clear.addEventListener('click', function () {
+    if (isPlaying()) {
         stopAutoplay();
     }
     lifeView.clear();

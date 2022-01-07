@@ -65,7 +65,7 @@ function clone2dArray(array) {
 (function() {
 
 var _ = self.LifeView = function(gridElement, height, width) {
-    this.gridElem = gridElement; // must be a <table>
+    this.gridNode = gridElement; // must be a <table>
     this.height = height;
     this.width = width;
     this.createGrid();
@@ -73,7 +73,7 @@ var _ = self.LifeView = function(gridElement, height, width) {
 
 _.prototype = {
     createGrid: function() {
-        this.gridElem.innerHTML = ''; // just in case
+        this.gridNode.innerHTML = ''; // just in case
         var fragment = document.createDocumentFragment();
         this.checkboxes = [];
         for (var y = 0; y < this.height; y++) {
@@ -97,7 +97,7 @@ _.prototype = {
         this.checkboxes[1][1].checked = true;
         this.checkboxes[1][2].checked = true;
 
-        this.gridElem.appendChild(fragment);
+        this.gridNode.appendChild(fragment);
     },
 
     next: function() {
@@ -118,9 +118,14 @@ _.prototype = {
     autoplay: function() {
         this.next();
         var me = this;
-        this.timeToNextPlay = setTimeout(function() {
-            me.autoplay()
-        }, 1000);
+        this.timeToNextPlay = setTimeout(
+            function() { me.autoplay(); },
+            1000 // ms
+        );
+    },
+
+    stopAutoplay: function() {
+        clearTimeout(this.timeToNextPlay);
     },
 }
 
@@ -131,11 +136,33 @@ var lifeView = new LifeView(document.getElementById('grid'), 16, 16);
 (function() {
 
 $('#button-next').addEventListener('click', function() {
+    if ($('#button-play').playing) {
+        stopAutoplay();
+    }
     lifeView.next();
-})
+});
 
 $('#button-play').addEventListener('click', function () {
-    lifeView.autoplay();
-})
+    if (this.playing) {
+        stopAutoplay();
+    } else {
+        this.playing = true;
+        this.innerHTML = "stop";
+        lifeView.autoplay();
+    }
+});
+
+function stopAutoplay() {
+    var playButton = $('#button-play');
+    playButton.playing = false;
+    playButton.innerHTML = "play";
+    lifeView.stopAutoplay();
+};
+
+lifeView.gridNode.addEventListener('change', function(event) {
+    if (event.target.nodeName.toLowerCase() == "input" && $('#button-play').playing) {
+        stopAutoplay();
+    }
+});
 
 })();

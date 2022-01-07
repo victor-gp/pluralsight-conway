@@ -53,7 +53,7 @@ _.prototype = {
         } else {
             return this.board[y][x];
         }
-    }
+    },
 };
 
 function clone2dArray(array) {
@@ -120,7 +120,7 @@ _.prototype = {
         var me = this;
         this.timeToNextPlay = setTimeout(
             function() { me.autoplay(); },
-            1000 // ms
+            800 // ms
         );
     },
 
@@ -139,7 +139,7 @@ _.prototype = {
 
 })();
 
-var lifeView = new LifeView(document.getElementById('grid'), 16, 16);
+var lifeView = new LifeView(document.getElementById('grid'), 17, 17);
 
 (function() {
 
@@ -147,7 +147,7 @@ var buttons = {
     next: $('#button-next'),
     play: $('#checkbox-play'),
     clear: $('#button-clear'),
-}
+};
 
 buttons.play.checked = false;
 
@@ -175,7 +175,7 @@ function stopAutoplay() {
     lifeView.stopAutoplay();
     buttons.play.checked = false;
     buttons.next.disabled = false;
-};
+}
 
 lifeView.gridNode.addEventListener('change', function(event) {
     var nodeName = event.target.nodeName.toLowerCase();

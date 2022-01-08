@@ -225,6 +225,9 @@ lifeView.gridNode.addEventListener('keyup', function(e) {
         case 'j':
             nextCoord = [y + 1, x];
             break;
+        case 'Escape':
+            document.activeElement.blur();
+            return;
         default:
             return;
     }

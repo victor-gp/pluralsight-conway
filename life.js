@@ -142,7 +142,7 @@ var lifeView = new LifeView(document.getElementById('grid'), 17, 17);
 
 (function() {
 
-var buttons = {
+this.buttons = {
     next: $('#button-next'),
     play: $('#checkbox-play'),
     clear: $('#button-clear'),
@@ -227,6 +227,20 @@ lifeView.gridNode.addEventListener('keyup', function(e) {
         // fix case where the focus comes from a mouse click
         checkboxes[y][x].blur();
         checkboxes[y][x].focus();
+    }
+});
+
+window.addEventListener('keyup', function(e) {
+    switch(e.key) {
+        case 'n':
+            buttons.next.click();
+            break;
+        case 'p':
+            buttons.play.click();
+            break;
+        case 'c':
+            buttons.clear.click();
+            break;
     }
 });
 

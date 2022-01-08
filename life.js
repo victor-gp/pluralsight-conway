@@ -192,3 +192,49 @@ buttons.clear.addEventListener('click', function () {
 });
 
 })();
+
+// keyboard accessibility
+(function() {
+
+lifeView.gridNode.addEventListener('keyup', function(event) {
+    if (event.target.nodeName.toLowerCase() != 'input') return;
+    var [y, x] = event.target.coords;
+    var nextCoord;
+
+    switch(event.key) {
+        case 'ArrowLeft':
+        case 'Left':
+        case 'h':
+            nextCoord = [y, x-1];
+            break;
+        case 'ArrowUp':
+        case 'Up':
+        case 'k':
+            nextCoord = [y-1, x];
+            break;
+        case 'ArrowRight':
+        case 'Right':
+        case 'l':
+            nextCoord = [y, x + 1];
+            break;
+        case 'ArrowDown':
+        case 'Down':
+        case 'j':
+            nextCoord = [y + 1, x];
+            break;
+        default:
+            return;
+    }
+
+    var [ny, nx] = nextCoord;
+    var checkboxes = lifeView.checkboxes;
+    if ((checkboxes[ny] || [])[nx]) {
+        checkboxes[ny][nx].focus();
+    } else {
+        // fix case where the focus comes from a mouse click
+        checkboxes[y][x].blur();
+        checkboxes[y][x].focus();
+    }
+});
+
+})();

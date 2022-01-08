@@ -5,7 +5,6 @@ function $(selector, container) {
 (function() {
 
 var _ = self.Life = function(seed) {
-    this.seed = seed;
     this.height = seed.length;
     this.width = seed[0].length;
     this.board = clone2dArray(seed);
@@ -90,12 +89,6 @@ _.prototype = {
                 checkbox.coords = [y, x];
             }
         }
-
-        // for testing
-        this.checkboxes[1][0].checked = true;
-        this.checkboxes[1][1].checked = true;
-        this.checkboxes[1][2].checked = true;
-
         this.gridNode.appendChild(fragment);
     },
 

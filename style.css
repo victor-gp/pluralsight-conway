@@ -29,6 +29,26 @@ body {
             background: black;
         }
 
+    @keyframes birth {
+        from {background: white;}
+        50% {background: rgba(0, 128, 0, 0.5);}
+        to {background: black;}
+    }
+
+    @keyframes death {
+        from {background: black;}
+        50% {background: rgba(128, 0, 0, 0.5);}
+        to {background: white;}
+    }
+
+    #grid.animatable input[type=checkbox].changed {
+        animation: death 500ms;
+    }
+
+        #grid.animatable input[type=checkbox].changed:checked {
+            animation: birth 500ms;
+        }
+
 button,
 .button {
     margin: auto 0.8em;

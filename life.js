@@ -100,12 +100,21 @@ _.prototype = {
     },
 
     next: function() {
+        this.gridNode.classList.add('animatable');
         model = new Life(this.boardArray);
         model.next();
-        board = model.board;
+
         for (var y = 0; y < this.height; y++) {
             for (var x = 0; x < this.width; x++) {
-                this.checkboxes[y][x].checked = !!board[y][x];
+                var cellView = this.checkboxes[y][x];
+                var alive = !!model.board[y][x];
+
+                if (cellView.checked != alive) {
+                    cellView.classList.add('changed');
+                    cellView.checked = alive;
+                } else {
+                    cellView.classList.remove('changed');
+                }
             }
         }
     },
@@ -119,7 +128,7 @@ _.prototype = {
         var me = this;
         this.timeToNextPlay = setTimeout(
             function() { me.autoplay(); },
-            800 // ms
+            1000 // ms
         );
     },
 
@@ -133,6 +142,10 @@ _.prototype = {
                 checkbox => checkbox.checked = false
             )
         );
+    },
+
+    disableAnimations: function() {
+        this.gridNode.classList.remove('animatable');
     },
 }
 
@@ -151,11 +164,13 @@ this.buttons = {
 buttons.play.checked = false;
 
 buttons.next.addEventListener('click', function() {
+    lifeView.disableAnimations();
     if (isPlaying()) stopAutoplay();
     lifeView.next();
 });
 
 buttons.play.addEventListener('change', function () {
+    lifeView.disableAnimations();
     if (this.checked) {
         buttons.next.disabled = true;
         lifeView.autoplay();
@@ -175,11 +190,13 @@ function stopAutoplay() {
 }
 
 lifeView.gridNode.addEventListener('change', function(e) {
+    lifeView.disableAnimations();
     var nodeName = e.target.nodeName.toLowerCase();
     if (nodeName == 'input' && isPlaying()) stopAutoplay();
 });
 
 buttons.clear.addEventListener('click', function () {
+    lifeView.disableAnimations();
     if (isPlaying()) stopAutoplay();
     lifeView.clear();
 });

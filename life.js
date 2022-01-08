@@ -25,9 +25,8 @@ _.prototype = {
                 var alive = !!this.board[y][x];
                 var aliveNeighbors = this.aliveNeighbors(y, x);
                 if (alive) {
-                    if (aliveNeighbors < 2 || aliveNeighbors > 3) {
+                    if (aliveNeighbors < 2 || aliveNeighbors > 3)
                         nextBoard[y][x] = 0;
-                    }
                 } else if (aliveNeighbors == 3) {
                     nextBoard[y][x] = 1;
                 }
@@ -152,9 +151,7 @@ var buttons = {
 buttons.play.checked = false;
 
 buttons.next.addEventListener('click', function() {
-    if (isPlaying()) {
-        stopAutoplay();
-    }
+    if (isPlaying()) stopAutoplay();
     lifeView.next();
 });
 
@@ -177,17 +174,13 @@ function stopAutoplay() {
     buttons.next.disabled = false;
 }
 
-lifeView.gridNode.addEventListener('change', function(event) {
-    var nodeName = event.target.nodeName.toLowerCase();
-    if (nodeName == "input" && isPlaying()) {
-        stopAutoplay();
-    }
+lifeView.gridNode.addEventListener('change', function(e) {
+    var nodeName = e.target.nodeName.toLowerCase();
+    if (nodeName == 'input' && isPlaying()) stopAutoplay();
 });
 
 buttons.clear.addEventListener('click', function () {
-    if (isPlaying()) {
-        stopAutoplay();
-    }
+    if (isPlaying()) stopAutoplay();
     lifeView.clear();
 });
 
@@ -196,12 +189,12 @@ buttons.clear.addEventListener('click', function () {
 // keyboard accessibility
 (function() {
 
-lifeView.gridNode.addEventListener('keyup', function(event) {
-    if (event.target.nodeName.toLowerCase() != 'input') return;
-    var [y, x] = event.target.coords;
+lifeView.gridNode.addEventListener('keyup', function(e) {
+    if (e.target.nodeName.toLowerCase() != 'input') return;
+    var [y, x] = e.target.coords;
     var nextCoord;
 
-    switch(event.key) {
+    switch(e.key) {
         case 'ArrowLeft':
         case 'Left':
         case 'h':
